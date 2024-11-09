@@ -87,13 +87,6 @@ swapon "$SWAP_PART"
 
 echo "All partitions mounted successfully."
 
-# Define packages and descriptions
-PACKAGES=(
-    "base" "base-devel" "linux" "linux-firmware" "networkmanager" "vim" "grub" "efibootmgr" 
-    "amd-ucode" "sudo" "git" "reflector" "bash-completion" "openssh" "man-db" "man-pages" "texinfo"
-    "nvidia" "nvidia-utils" "nvidia-settings" "mesa"
-)
-
 # Descriptions for each package
 DESCRIPTIONS=(
     "base: Core packages for a minimal Arch system"
@@ -119,12 +112,19 @@ DESCRIPTIONS=(
     "mesa: OpenGL implementation (for AMD graphics)"
 )
 
-# Function to list packages and ask for confirmation
+# Function to extract package names and install them
 install_packages() {
-    echo "The following packages will be installed:"
+    # Extract package names from descriptions
+    PACKAGE_NAMES=()
+    for description in "${DESCRIPTIONS[@]}"; do
+        # Extract package name before the colon
+        PACKAGE_NAME=$(echo "$description" | cut -d ':' -f 1)
+        PACKAGE_NAMES+=("$PACKAGE_NAME")
+    done
 
-    # Print descriptions
-    for i in "${!PACKAGES[@]}"; do
+    # List the packages and descriptions
+    echo "The following packages will be installed:"
+    for i in "${!PACKAGE_NAMES[@]}"; do
         echo "${DESCRIPTIONS[$i]}"
     done
 
@@ -133,7 +133,7 @@ install_packages() {
     case "$choice" in
         [Yy]*)
             # Install the packages with pacstrap
-            pacstrap -K /mnt "${PACKAGES[@]}"
+            pacstrap -K /mnt "${PACKAGE_NAMES[@]}"
             echo "Installation complete."
             ;;
         [Nn]*)
