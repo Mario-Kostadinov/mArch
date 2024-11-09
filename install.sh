@@ -86,3 +86,45 @@ echo "Enabling swap partition $SWAP_PART..."
 swapon "$SWAP_PART"
 
 echo "All partitions mounted successfully."
+
+# Define packages and descriptions
+PACKAGES=(
+    "base" "base-devel" "linux" "linux-firmware" "networkmanager" "vim" "grub" "efibootmgr" 
+    "amd-ucode" "sudo" "git" "reflector" "bash-completion" "openssh" "man-db" "man-pages" "texinfo"
+    "nvidia" "nvidia-utils" "nvidia-settings" "mesa"
+)
+
+# Descriptions for each package
+DESCRIPTIONS=(
+    "base: Core packages for a minimal Arch system"
+    "base-devel: Development tools for building packages"
+    "linux: The Linux kernel"
+    "linux-firmware: Firmware for various hardware"
+    "networkmanager: Simplified network management"
+    "vim: Text editor"
+    "grub: Bootloader"
+    "efibootmgr: EFI boot manager for UEFI systems"
+    "amd-ucode: AMD CPU microcode updates"
+    "sudo: Allow non-root users to run commands as root"
+    "git: Version control system"
+    "reflector: Updates the mirrorlist for faster downloads"
+    "bash-completion: Adds autocompletion to bash"
+    "openssh: SSH client and server"
+    "man-db: Database of manual pages"
+    "man-pages: Manual pages for common programs"
+    "texinfo: Documentation system for info files"
+    "nvidia: Proprietary driver for NVIDIA GPUs"
+    "nvidia-utils: Utilities for NVIDIA drivers"
+    "nvidia-settings: Configuration tool for NVIDIA GPUs"
+    "mesa: OpenGL implementation (for AMD graphics)"
+)
+
+# Print out descriptions
+echo "Installing the following packages:"
+
+for i in "${!PACKAGES[@]}"; do
+    echo "${DESCRIPTIONS[$i]}"
+done
+
+# Now perform pacstrap with the packages
+pacstrap -K /mnt "${PACKAGES[@]}"
