@@ -202,7 +202,12 @@ run_chroot_install() {
         echo "Copying $chroot_script to /mnt/root/..."
         cp "$chroot_script" /mnt/root/
         chmod +x /mnt/root/$chroot_script
-
+        export DISK
+        export BOOT_PART
+        export SWAP_PART
+        export ROOT_PART
+        export BOOT_SIZE
+        export SWAP_SIZE
         echo "Entering chroot and executing $chroot_script..."
         arch-chroot /mnt /root/$chroot_script
     else
