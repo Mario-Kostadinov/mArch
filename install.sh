@@ -119,12 +119,31 @@ DESCRIPTIONS=(
     "mesa: OpenGL implementation (for AMD graphics)"
 )
 
-# Print out descriptions
-echo "Installing the following packages:"
+# Function to list packages and ask for confirmation
+install_packages() {
+    echo "The following packages will be installed:"
 
-for i in "${!PACKAGES[@]}"; do
-    echo "${DESCRIPTIONS[$i]}"
-done
+    # Print descriptions
+    for i in "${!PACKAGES[@]}"; do
+        echo "${DESCRIPTIONS[$i]}"
+    done
 
-# Now perform pacstrap with the packages
-pacstrap -K /mnt "${PACKAGES[@]}"
+    # Prompt for confirmation
+    read -p "Do you want to install these packages? (y/n): " choice
+    case "$choice" in
+        [Yy]*)
+            # Install the packages with pacstrap
+            pacstrap -K /mnt "${PACKAGES[@]}"
+            echo "Installation complete."
+            ;;
+        [Nn]*)
+            echo "Installation aborted."
+            ;;
+        *)
+            echo "Invalid choice, installation aborted."
+            ;;
+    esac
+}
+
+# Call the function to install packages
+install_packages
