@@ -56,9 +56,9 @@ partition_and_format() {
         ) | fdisk "$DISK"
 
         # Identifying partitions (assuming disk is like /dev/sda)
-        BOOT_PART="${DISK}1"
-        SWAP_PART="${DISK}2"
-        ROOT_PART="${DISK}3"
+        BOOT_PART="${DISK}p1"
+        SWAP_PART="${DISK}p2"
+        ROOT_PART="${DISK}p3"
 
         # Prompt to format partitions (default: yes)
         read -p "Do you want to format the partitions? (y/n, default: y): " format_choice

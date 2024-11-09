@@ -151,27 +151,31 @@ install_boot_loader() {
 
     if [[ "$boot_loader_choice" =~ ^[Yy]$ ]]; then
         echo "Installing boot loader..."
-
+        
         # Install bootloader (e.g., GRUB for BIOS or UEFI systems)
         read -p "Is your system using UEFI? (y/n, default: y): " uefi_choice
         uefi_choice=${uefi_choice:-y}  # Default to 'y' if no input is provided
 
         if [[ "$uefi_choice" =~ ^[Yy]$ ]]; then
-            pacman -S grub efibootmgr
+            pacman -S grub efibootmgr os-prober
             mkdir -p /boot/efi
             mount "$BOOT_PART" /boot/efi
             grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+            # Detect other systems and add them to the boot menu
+            os-prober
             grub-mkconfig -o /boot/grub/grub.cfg
         else
-            pacman -S grub
+            pacman -S grub os-prober
             grub-install --target=i386-pc "$DISK"
+            # Detect other systems and add them to the boot menu
+            os-prober
             grub-mkconfig -o /boot/grub/grub.cfg
         fi
 
-        echo "Boot loader installed successfully."
+        echo "Boot loader installed successfully. You can now choose which Arch to boot from the GRUB menu."
     else
         echo "Skipping boot loader installation."
     fi
 }
 
-install_boot_loader
+  install_boot_loader
