@@ -161,6 +161,14 @@ install_boot_loader() {
             mkdir -p /boot/efi
             mount "$BOOT_PART" /boot/efi
             grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+
+            # Mount the EFI partition of the other Arch system if necessary
+            read -p "Do you have a separate EFI partition for the other Arch installation? (y/n): " other_efi_choice
+            if [[ "$other_efi_choice" =~ ^[Yy]$ ]]; then
+                read -p "Enter the partition for the other Arch EFI (e.g., /dev/sdXY): " other_efi_partition
+                mount "$other_efi_partition" /mnt
+            fi
+
             # Detect other systems and add them to the boot menu
             os-prober
             grub-mkconfig -o /boot/grub/grub.cfg
