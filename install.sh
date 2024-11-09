@@ -71,3 +71,18 @@ echo "Disk partitioning and formatting complete."
 echo "Boot partition: $BOOT_PART"
 echo "Swap partition: $SWAP_PART"
 echo "Root partition: $ROOT_PART"
+
+# Mount root partition
+echo "Mounting root partition $ROOT_PART..."
+mount "$ROOT_PART" /mnt
+
+# Create directories for boot and other mount points
+echo "Creating and mounting boot partition $BOOT_PART..."
+mkdir -p /mnt/boot
+mount "$BOOT_PART" /mnt/boot
+
+# Enable swap partition
+echo "Enabling swap partition $SWAP_PART..."
+swapon "$SWAP_PART"
+
+echo "All partitions mounted successfully."
