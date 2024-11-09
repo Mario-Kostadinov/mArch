@@ -73,19 +73,36 @@ echo "Swap partition: $SWAP_PART"
 echo "Root partition: $ROOT_PART"
 
 # Mount root partition
-echo "Mounting root partition $ROOT_PART..."
-mount "$ROOT_PART" /mnt
 
-# Create directories for boot and other mount points
-echo "Creating and mounting boot partition $BOOT_PART..."
-mkdir -p /mnt/boot
-mount "$BOOT_PART" /mnt/boot
+  mountPartitions() {
+      echo "Mounting root partition $ROOT_PART..."
+      mount "$ROOT_PART" /mnt
 
-# Enable swap partition
-echo "Enabling swap partition $SWAP_PART..."
-swapon "$SWAP_PART"
+  # Create directories for boot and other mount points
+  echo "Creating and mounting boot partition $BOOT_PART..."
+  mkdir -p /mnt/boot
+  mount "$BOOT_PART" /mnt/boot
 
-echo "All partitions mounted successfully."
+  # Enable swap partition
+  echo "Enabling swap partition $SWAP_PART..."
+  swapon "$SWAP_PART"
+
+  echo "All partitions mounted successfully."
+  }
+
+  # Ask user whether to mount partitions
+read -p "Do you want to mount the partitions? (y/n): " mount_choice
+case "$mount_choice" in
+    [Yy]*)
+        mountPartitions
+        ;;
+    [Nn]*)
+        echo "Skipping mounting partitions."
+        ;;
+    *)
+        echo "Invalid choice, skipping mounting partitions."
+        ;;
+esac
 
 # Descriptions for each package
 DESCRIPTIONS=(
