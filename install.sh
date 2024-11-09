@@ -23,23 +23,45 @@ BOOT_SIZE=${input_boot:-$BOOT_SIZE}
 read -p "Enter swap partition size (default 4G): " input_swap
 SWAP_SIZE=${input_swap:-$SWAP_SIZE}
 
-# Start partitioning
-echo "Partitioning $DISK..."
-wait 1
-parted -s "$DISK" mklabel gpt
-parted -s "$DISK" mkpart ESP fat32 1MiB "$BOOT_SIZE"
-parted -s "$DISK" set 1 esp on
-parted -s "$DISK" mkpart primary linux-swap "$BOOT_SIZE" "$(($BOOT_SIZE + $SWAP_SIZE))"
-parted -s "$DISK" mkpart primary ext4 "$(($BOOT_SIZE + $SWAP_SIZE))" 100%
+# Start partitioning with fdisk
+echo "Partitioning $DISK with fdisk..."
 
-# Identifying partitions
+# Convert sizes to sectors for fdisk (assuming 1MiB = 2048 sectors)
+BOOT_SIZE_SECTORS=$(echo "$BOOT_SIZE" | sed 's/G//' | awk '{print $1 * 1024 * 2048}')
+SWAP_SIZE_SECTORS=$(echo "$SWAP_SIZE" | sed 's/G//' | awk '{print $1 * 1024 * 2048}')
+
+(
+echo g # Create a new GPT partition table
+echo n # New partition for boot
+echo 1 # Partition number 1
+echo   # Default first sector
+echo "+${BOOT_SIZE}" # Boot partition size
+echo t # Change partition type
+echo 1 # EFI System
+
+echo n # New partition for swap
+echo 2 # Partition number 2
+echo   # Default first sector
+echo "+${SWAP_SIZE}" # Swap partition size
+echo t # Change partition type
+echo 2 # Select partition 2
+echo 19 # Set type to Linux swap (hex code 19 for GPT)
+
+echo n # New partition for root
+echo 3 # Partition number 3
+echo   # Default first sector
+echo   # Use remaining space for root
+
+echo w # Write changes
+) | fdisk "$DISK"
+
+# Identifying partitions (assuming disk is like /dev/sda)
 BOOT_PART="${DISK}1"
 SWAP_PART="${DISK}2"
 ROOT_PART="${DISK}3"
 
 # Formatting
 echo "Formatting partitions..."
-wait 1
 mkfs.fat -F 32 "$BOOT_PART"
 mkswap "$SWAP_PART"
 mkfs.ext4 "$ROOT_PART"
