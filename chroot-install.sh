@@ -146,38 +146,32 @@ set_root_password() {
 set_root_password
 
 install_boot_loader() {
+
+    # Ask whether to install a boot loader
     read -p "Do you want to install a boot loader? (y/n, default: y): " boot_loader_choice
     boot_loader_choice=${boot_loader_choice:-y}  # Default to 'y' if no input is provided
 
     if [[ "$boot_loader_choice" =~ ^[Yy]$ ]]; then
         echo "Installing boot loader..."
-        
+        echo "Select installation type:"
+        echo "1) USB Installation"
+        echo "2) Existing OS Installation"
+        read -p "Enter your choice (1/2, default: 1): " installation_type
+        installation_type=${installation_type:-1}  # Default to '1' if no input
+
         # Install bootloader (e.g., GRUB for BIOS or UEFI systems)
         read -p "Is your system using UEFI? (y/n, default: y): " uefi_choice
         uefi_choice=${uefi_choice:-y}  # Default to 'y' if no input is provided
 
         if [[ "$uefi_choice" =~ ^[Yy]$ ]]; then
             pacman -S grub efibootmgr os-prober
-            mkdir -p /boot/efi
-            mount "$BOOT_PART" /boot/efi
-            grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 
-            # Mount the EFI partition of the other Arch system if necessary
-            read -p "Do you have a separate EFI partition for the other Arch installation? (y/n): " other_efi_choice
-            if [[ "$other_efi_choice" =~ ^[Yy]$ ]]; then
-                read -p "Enter the partition for the other Arch EFI (e.g., /dev/sdXY): " other_efi_partition
-                mount "$other_efi_partition" /mnt
+            grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+
+            if [[ "$installation_type" == "1" ]]; then
+                grub-mkconfig -o /boot/grub/grub.cfg
             fi
 
-            # Detect other systems and add them to the boot menu
-            os-prober
-            grub-mkconfig -o /boot/grub/grub.cfg
-        else
-            pacman -S grub os-prober
-            grub-install --target=i386-pc "$DISK"
-            # Detect other systems and add them to the boot menu
-            os-prober
-            grub-mkconfig -o /boot/grub/grub.cfg
         fi
 
         echo "Boot loader installed successfully. You can now choose which Arch to boot from the GRUB menu."

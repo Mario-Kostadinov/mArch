@@ -1,15 +1,34 @@
+BaseInstallApplications=(
+    #Base Installation
+    "base: Core packages for a minimal Arch system"
+    "base-devel: Development tools for building packages"
+    "linux: The Linux kernel"
+    "linux-firmware: Firmware for various hardware"
+    "networkmanager: Simplified network management"
+    "grub: Bootloader"
+    "efibootmgr: EFI boot manager for UEFI systems"
+    "amd-ucode: AMD CPU microcode updates"
+    "sudo: Allow non-root users to run commands as root"
+    "git: Version control system"
+    "nano: Nano's ANOther text editor, inspired by Pico"
+    "reflector: Updates the mirrorlist for faster downloads"
+)
+
 echo "Syncing clock..."
 timedatectl set-ntp true
 wait 2
 
 partition_and_format() {
+    read -p "Enter the disk to partition (e.g., /dev/sda): " DISK
+
     # Ask if you want to proceed with partitioning
     read -p "Do you want to proceed with partitioning the disk? (y/n, default: y): " proceed_partition
     proceed_partition=${proceed_partition:-y}  # Default to 'y' if no input is provided
 
     if [[ "$proceed_partition" =~ ^[Yy]$ ]]; then
         # Prompt for disk to partition
-        read -p "Enter the disk to partition (e.g., /dev/sda): " DISK
+
+        echo $DISK
 
         # Default sizes
         BOOT_SIZE="1G"
@@ -121,36 +140,11 @@ case "$mount_choice" in
         ;;
 esac
 
-# Descriptions for each package
-DESCRIPTIONS=(
-    "base: Core packages for a minimal Arch system"
-    "base-devel: Development tools for building packages"
-    "linux: The Linux kernel"
-    "linux-firmware: Firmware for various hardware"
-    "networkmanager: Simplified network management"
-    "vim: Text editor"
-    "grub: Bootloader"
-    "efibootmgr: EFI boot manager for UEFI systems"
-    "amd-ucode: AMD CPU microcode updates"
-    "sudo: Allow non-root users to run commands as root"
-    "git: Version control system"
-    "reflector: Updates the mirrorlist for faster downloads"
-    "bash-completion: Adds autocompletion to bash"
-    "openssh: SSH client and server"
-    "man-db: Database of manual pages"
-    "man-pages: Manual pages for common programs"
-    "texinfo: Documentation system for info files"
-    "nvidia: Proprietary driver for NVIDIA GPUs"
-    "nvidia-utils: Utilities for NVIDIA drivers"
-    "nvidia-settings: Configuration tool for NVIDIA GPUs"
-    "mesa: OpenGL implementation (for AMD graphics)"
-)
-
 # Function to extract package names and install them
 install_packages() {
     # Extract package names from descriptions
     PACKAGE_NAMES=()
-    for description in "${DESCRIPTIONS[@]}"; do
+    for description in "${BaseInstallApplications[@]}"; do
         # Extract package name before the colon
         PACKAGE_NAME=$(echo "$description" | cut -d ':' -f 1)
         PACKAGE_NAMES+=("$PACKAGE_NAME")
@@ -159,7 +153,7 @@ install_packages() {
     # List the packages and descriptions
     echo "The following packages will be installed:"
     for i in "${!PACKAGE_NAMES[@]}"; do
-        echo "${DESCRIPTIONS[$i]}"
+        echo "${BaseInstallApplications[$i]}"
     done
 
     # Prompt for confirmation
