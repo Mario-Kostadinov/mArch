@@ -64,6 +64,36 @@ configure_localization() {
 configure_localization
 wait 1
 
+createUser() {
+    # Ask if the user wants to create a new user
+    read -p "Do you want to create a new user? (y/n): " choice
+    case "$choice" in
+        [Yy]*)
+            # Prompt for the username
+            read -p "Enter the username: " username
+            
+            # Prompt for the password
+            read -s -p "Enter the password for $username: " password
+            echo # To move to the next line after password input
+            
+            # Create the user with the specified username
+            sudo useradd -m -s /bin/bash "$username"
+            
+            # Set the password for the new user
+            echo "$username:$password" | sudo chpasswd
+            
+            echo "User $username created successfully."
+            ;;
+        [Nn]*)
+            echo "User creation aborted."
+            ;;
+        *)
+            echo "Invalid choice. User creation aborted."
+            ;;
+    esac
+}
+createUser
+
 configure_network() {
       read -p "Do you want to configure the network? (y/n, default: y): " network_choice
       network_choice=${network_choice:-y}  # Default to 'y' if no input is provided
