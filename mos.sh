@@ -33,11 +33,16 @@ run_mos_script() {
 }
 
 APPS=(
+    #IDES
+    "emacs: no need to introduce this"
+    "vim: cool"
     #timetracking
     "timew: cli base time tracking app"
     "rofi: menu"
     #terminal emulator
     "alacritty: A fast, cross-platform, OpenGL terminal emulator"
+    #browsers
+    "firefox: browser"
 )
 
 installApps() {
@@ -76,9 +81,12 @@ installQtile() {
 
 copyQtileConfig() {
     echo "Copying Qtile configuration file..."
+    local source="/home/mario/mArch/configs/qtile.py"
+    local target="/home/mario/.config/qtile/config.py"
+    mkdir -p "$(dirname "$target")"
 
     # Copy the configuration file from 'configs/qtile.py' to the target directory
-    cp "/home/mario/mArch/configs/qtile.py" ~/.config/qtile/config.py
+    cp "$source" "$target"
 
     echo "Qtile configuration file copied to ~/.config/qtile/config.py."
 }
