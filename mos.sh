@@ -65,7 +65,6 @@ Current=breeze
 
 installSDDMFresh() {
  installSDDM
- configureSDDM
 }
 
 prompt_confirmation "Do you want to install SDDM" installSDDMFresh
