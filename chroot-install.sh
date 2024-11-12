@@ -148,8 +148,8 @@ configure_network() {
           # Set up DNS resolver
           echo "Configuring DNS resolver..."
           # This file typically contains nameserver settings; replace or add if necessary.
-          echo "nameserver 8.8.8.8" > /etc/resolv.conf  # Google's public DNS (can be changed to preferred DNS)
-          echo "nameserver 1.1.1.1" >> /etc/resolv.conf  # Cloudflare DNS (optional additional resolver)
+          #echo "nameserver 8.8.8.8" > /etc/resolv.conf  # Google's public DNS (can be changed to preferred DNS)
+          #echo "nameserver 1.1.1.1" >> /etc/resolv.conf  # Cloudflare DNS (optional additional resolver)
 
           # Optional: Enable systemd-resolved for managing DNS
           read -p "Do you want to enable systemd-resolved for DNS management? (y/n, default: n): " resolved_choice
