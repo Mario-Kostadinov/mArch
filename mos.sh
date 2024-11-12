@@ -78,7 +78,7 @@ copyQtileConfig() {
     echo "Copying Qtile configuration file..."
 
     # Copy the configuration file from 'configs/qtile.py' to the target directory
-    cp "$(dirname "$0")/configs/qtile.py" ~/.config/qtile/config.py
+    cp "$HOME/mArch/configs/qtile.py" ~/.config/qtile/config.py
 
     echo "Qtile configuration file copied to ~/.config/qtile/config.py."
 }

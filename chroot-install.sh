@@ -111,7 +111,8 @@ configureSudoers() {
     cp /etc/sudoers /etc/sudoers.bak
 
     # Use sed to uncomment the '%wheel ALL=(ALL) ALL' line
-    sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+    echo '%wheel ALL=(ALL:ALL) ALL' | sudo EDITOR='tee -a' visudo
+
 
     echo "'wheel' group now has sudo privileges."
 }
