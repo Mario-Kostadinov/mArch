@@ -78,7 +78,7 @@ copyQtileConfig() {
     echo "Copying Qtile configuration file..."
 
     # Copy the configuration file from 'configs/qtile.py' to the target directory
-    cp "$HOME/mArch/configs/qtile.py" ~/.config/qtile/config.py
+    cp "/home/mario/mArch/configs/qtile.py" ~/.config/qtile/config.py
 
     echo "Qtile configuration file copied to ~/.config/qtile/config.py."
 }
@@ -96,8 +96,8 @@ copyEmacsConfig() {
     echo "Copying Emacs configuration..."
 
     # Define source and target paths
-    src="$HOME/mArch/configs/EmacsConfig.el"
-    dest="$HOME/.emacs.d/init.el"
+    src="/home/mario/mArch/configs/EmacsConfig.el"
+    dest="/home/mario/.emacs.d/init.el"
 
     # Create target directory if it doesn't exist
     mkdir -p "$(dirname "$dest")"
