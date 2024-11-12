@@ -6,8 +6,8 @@ super + shift + Return
 
 super + w
     google-chrome-stable
-
-# super + shift + f
+#
+ super + shift + f
 # 	rofi -show drun -fullscreen
 
 super + shift + w
@@ -21,4 +21,13 @@ alt + shift + w
    $HOME/mos/mconfig/launch-work.sh
 
 alt + shift + x
-    loginctl terminate-user mario
+
+ArchLinux.org
+current-task.sh
+dmenu-script.sh
+ChrootScipt.org
+BaseArchInstall.org
+*scratch*
+*Messages*
+*quelpa-build-checkout*
+bookmarks    loginctl terminate-user mario

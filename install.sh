@@ -1,3 +1,21 @@
+prompt_confirmation() {
+    local question="$1"
+    local callback="$2"
+    read -p "$question (y/n): " choice
+    case "$choice" in
+        [Yy]*) 
+            # Call the passed function
+            "$callback"
+            ;;
+        [Nn]*) 
+            echo "Skipping Operation..."
+            ;;
+        *) 
+            echo "Invalid choice, please answer y or n."
+            ;;
+    esac
+}
+
 BaseInstallApplications=(
     #Base Installation
     "base: Core packages for a minimal Arch system"
@@ -12,6 +30,7 @@ BaseInstallApplications=(
     "git: Version control system"
     "nano: Nano's ANOther text editor, inspired by Pico"
     "reflector: Updates the mirrorlist for faster downloads"
+    "sudo: execute a command as another user"
 )
 
 echo "Syncing clock..."
@@ -210,5 +229,28 @@ run_chroot_install() {
     fi
 }
 
+  run_mos_script() {
+    local chroot_script="mos.sh"
+
+    # Check if the script exists
+    if [[ -f "$chroot_script" ]]; then
+        echo "Copying $chroot_script to /mnt/root/..."
+        cp "$chroot_script" /mnt/root/
+        chmod +x /mnt/root/$chroot_script
+        export DISK
+        export BOOT_PART
+        export SWAP_PART
+        export ROOT_PART
+        export BOOT_SIZE
+        export SWAP_SIZE
+        echo "Entering chroot and executing $chroot_script..."
+        arch-chroot /mnt /root/$chroot_script
+    else
+        echo "Error: $chroot_script not found. Please ensure the script is in the same directory."
+        exit 1
+    fi
+}
+
+prompt_confirmation "Do you want to execute chroot script?" run_chroot_install
 # Call the function to copy and execute the chroot script
-run_chroot_install
+prompt_confirmation "Do you want to execute mos script?" run_mos_script

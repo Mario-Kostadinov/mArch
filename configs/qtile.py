@@ -30,34 +30,34 @@ def window_to_next_group(qtile):
         qtile.currentWindow.togroup(qtile.groups[i + 1].name)
 
 
-keys = [
-    # Most of our keybindings are in sxhkd file - except these
-    Key([mod2], "space", lazy.widget["keyboardlayout"].next_keyboard(), desc="Next keyboard layout"),
-    # SUPER + FUNCTION KEYS
+        keys = [
+            # Most of our keybindings are in sxhkd file - except these
+            Key([mod2], "space", lazy.widget["keyboardlayout"].next_keyboard(), desc="Next keyboard layout"),
+            # SUPER + FUNCTION KEYS
 
-    Key([mod], "f", lazy.window.toggle_fullscreen()),
-    Key([mod], "q", lazy.window.kill()),
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+            Key([mod], "f", lazy.window.toggle_fullscreen()),
+            Key([mod], "q", lazy.window.kill()),
+            Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 
-# SUPER + SHIFT KEYS
+            # SUPER + SHIFT KEYS
 
-    Key([mod, "shift"], "q", lazy.window.kill()),
-    Key([mod, "shift"], "r", lazy.restart()),
+            Key([mod, "shift"], "q", lazy.window.kill()),
+            Key([mod, "shift"], "r", lazy.restart()),
 
 
-# QTILE LAYOUT KEYS
-    Key([mod], "n", lazy.layout.normalize()),
-    Key([mod], "space", lazy.next_layout()),
+            # QTILE LAYOUT KEYS
+            Key([mod], "n", lazy.layout.normalize()),
+            Key([mod], "space", lazy.next_layout()),
 
-# CHANGE FOCUS
-    Key([mod], "Up", lazy.layout.up()),
-    Key([mod], "Down", lazy.layout.down()),
-    Key([mod], "Left", lazy.layout.left()),
-    Key([mod], "Right", lazy.layout.right()),
-    Key([mod], "k", lazy.layout.up()),
-    Key([mod], "j", lazy.layout.down()),
-    Key([mod], "h", lazy.layout.left()),
-    Key([mod], "l", lazy.layout.right()),
+            # CHANGE FOCUS
+            Key([mod], "Up", lazy.layout.up()),
+            Key([mod], "Down", lazy.layout.down()),
+            Key([mod], "Left", lazy.layout.left()),
+            Key([mod], "Right", lazy.layout.right()),
+            Key([mod], "k", lazy.layout.up()),
+            Key([mod], "j", lazy.layout.down()),
+            Key([mod], "h", lazy.layout.left()),
+            Key([mod], "l", lazy.layout.right()),
 
 
 # RESIZE UP, DOWN, LEFT, RIGHT
@@ -67,74 +67,74 @@ keys = [
         lazy.layout.increase_ratio(),
         lazy.layout.delete(),
         ),
-    Key([mod, "control"], "Right",
-        lazy.layout.grow_right(),
-        lazy.layout.grow(),
-        lazy.layout.increase_ratio(),
-        lazy.layout.delete(),
-        ),
-    Key([mod, "control"], "h",
-        lazy.layout.grow_left(),
-        lazy.layout.shrink(),
-        lazy.layout.decrease_ratio(),
-        lazy.layout.add(),
-        ),
-    Key([mod, "control"], "Left",
-        lazy.layout.grow_left(),
-        lazy.layout.shrink(),
-        lazy.layout.decrease_ratio(),
-        lazy.layout.add(),
-        ),
-    Key([mod, "control"], "k",
-        lazy.layout.grow_up(),
-        lazy.layout.grow(),
-        lazy.layout.decrease_nmaster(),
-        ),
-    Key([mod, "control"], "Up",
-        lazy.layout.grow_up(),
-        lazy.layout.grow(),
-        lazy.layout.decrease_nmaster(),
-        ),
-    Key([mod, "control"], "j",
-        lazy.layout.grow_down(),
-        lazy.layout.shrink(),
-        lazy.layout.increase_nmaster(),
-        ),
-    Key([mod, "control"], "Down",
-        lazy.layout.grow_down(),
-        lazy.layout.shrink(),
-        lazy.layout.increase_nmaster(),
-        ),
+            Key([mod, "control"], "Right",
+                lazy.layout.grow_right(),
+                lazy.layout.grow(),
+                lazy.layout.increase_ratio(),
+                lazy.layout.delete(),
+                ),
+            Key([mod, "control"], "h",
+                lazy.layout.grow_left(),
+                lazy.layout.shrink(),
+                lazy.layout.decrease_ratio(),
+                lazy.layout.add(),
+                ),
+            Key([mod, "control"], "Left",
+                lazy.layout.grow_left(),
+                lazy.layout.shrink(),
+                lazy.layout.decrease_ratio(),
+                lazy.layout.add(),
+                ),
+            Key([mod, "control"], "k",
+                lazy.layout.grow_up(),
+                lazy.layout.grow(),
+                lazy.layout.decrease_nmaster(),
+                ),
+            Key([mod, "control"], "Up",
+                lazy.layout.grow_up(),
+                lazy.layout.grow(),
+                lazy.layout.decrease_nmaster(),
+                ),
+            Key([mod, "control"], "j",
+                lazy.layout.grow_down(),
+                lazy.layout.shrink(),
+                lazy.layout.increase_nmaster(),
+                ),
+            Key([mod, "control"], "Down",
+                lazy.layout.grow_down(),
+                lazy.layout.shrink(),
+                lazy.layout.increase_nmaster(),
+                ),
 
-# Hide top bar
-    Key([mod], "b", lazy.hide_show_bar(), desc="Hides the bar"),
+            # Hide top bar
+            Key([mod], "b", lazy.hide_show_bar(), desc="Hides the bar"),
 
-# FLIP LAYOUT FOR MONADTALL/MONADWIDE
-    Key([mod, "shift"], "f", lazy.layout.flip()),
+            # FLIP LAYOUT FOR MONADTALL/MONADWIDE
+            Key([mod, "shift"], "f", lazy.layout.flip()),
 
-# FLIP LAYOUT FOR BSP
-    Key([mod, "mod1"], "k", lazy.layout.flip_up()),
-    Key([mod, "mod1"], "j", lazy.layout.flip_down()),
-    Key([mod, "mod1"], "l", lazy.layout.flip_right()),
-    Key([mod, "mod1"], "h", lazy.layout.flip_left()),
+            # FLIP LAYOUT FOR BSP
+            Key([mod, "mod1"], "k", lazy.layout.flip_up()),
+            Key([mod, "mod1"], "j", lazy.layout.flip_down()),
+            Key([mod, "mod1"], "l", lazy.layout.flip_right()),
+            Key([mod, "mod1"], "h", lazy.layout.flip_left()),
 
-# MOVE WINDOWS UP OR DOWN BSP LAYOUT
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down()),
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right()),
+            # MOVE WINDOWS UP OR DOWN BSP LAYOUT
+            Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
+            Key([mod, "shift"], "j", lazy.layout.shuffle_down()),
+            Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
+            Key([mod, "shift"], "l", lazy.layout.shuffle_right()),
 
-# MOVE WINDOWS UP OR DOWN MONADTALL/MONADWIDE LAYOUT
-    Key([mod, "shift"], "Up", lazy.layout.shuffle_up()),
-    Key([mod, "shift"], "Down", lazy.layout.shuffle_down()),
-    Key([mod, "shift"], "Left", lazy.layout.swap_left()),
-    Key([mod, "shift"], "Right", lazy.layout.swap_right()),
+            # MOVE WINDOWS UP OR DOWN MONADTALL/MONADWIDE LAYOUT
+            Key([mod, "shift"], "Up", lazy.layout.shuffle_up()),
+            Key([mod, "shift"], "Down", lazy.layout.shuffle_down()),
+            Key([mod, "shift"], "Left", lazy.layout.swap_left()),
+            Key([mod, "shift"], "Right", lazy.layout.swap_right()),
 
-# TOGGLE FLOATING LAYOUT
-    Key([mod, "shift"], "space", lazy.window.toggle_floating()),
-]
+            # TOGGLE FLOATING LAYOUT
+            Key([mod, "shift"], "space", lazy.window.toggle_floating()),
+        ]
 
-def window_to_previous_screen(qtile, switch_group=False, switch_screen=False):
+        def window_to_previous_screen(qtile, switch_group=False, switch_screen=False):
     i = qtile.screens.index(qtile.current_screen)
     if i != 0:
         group = qtile.screens[i - 1].group.name
@@ -142,9 +142,9 @@ def window_to_previous_screen(qtile, switch_group=False, switch_screen=False):
         if switch_screen == True:
             qtile.cmd_to_screen(i - 1)
 
-def window_to_next_screen(qtile, switch_group=False, switch_screen=False):
-    i = qtile.screens.index(qtile.current_screen)
-    if i + 1 != len(qtile.screens):
+            def window_to_next_screen(qtile, switch_group=False, switch_screen=False):
+                i = qtile.screens.index(qtile.current_screen)
+                if i + 1 != len(qtile.screens):
         group = qtile.screens[i + 1].group.name
         qtile.current_window.togroup(group, switch_group=switch_group)
         if switch_screen == True:
@@ -263,7 +263,7 @@ screens = [
                 ),
                 widget.GenPollText(
                     update_interval=1,
-                    func=lambda: subprocess.check_output("/home/mario/mos/mconfig/timetracking/current-task.sh").decode("utf-8").strip()
+                    func=lambda: subprocess.check_output("~/mArch/configs/qtileTimetracking.sh").decode("utf-8").strip()
                 ),
                 widget.Sep(
                     linewidth = 1,
@@ -294,8 +294,7 @@ mouse = [
 ]
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser('~/mos/mconfig/autostart.sh')
-    # startkeybinds = os.path.expanduser('~/mconfig/startkeybinds.sh')
+    home = os.path.expanduser('~/mArch/configs/qtileAutoStart.sh')
     subprocess.run([home])
 
 

@@ -44,23 +44,7 @@ installSDDM() {
 }
 
 configureSDDM() {
-    echo "Enabling SDDM service..."
     systemctl enable sddm
-
-    echo "Configuring SDDM..."
-    if [ -f /etc/sddm.conf ]; then
-        # Example of updating the configuration if it exists
-        sed -i 's/^#Current=.*/Current=breeze/' /etc/sddm.conf
-    else
-        # Create a simple configuration if none exists
-        mkdir -p /etc/sddm.conf.d
-        cat <<EOF > /etc/sddm.conf.d/sddm.conf
-[Theme]
-Current=breeze
-  EOF
-    fi
-
-    echo "SDDM configuration complete."
 }
 
 installSDDMFresh() {
@@ -68,6 +52,7 @@ installSDDMFresh() {
 }
 
 prompt_confirmation "Do you want to install SDDM" installSDDMFresh
+prompt_confirmation "Do you want to enable SDDM" configureSDDM
 
 installQtile() {
  pacman -S --noconfirm qtile
@@ -88,6 +73,8 @@ installAndConfigureQtile(){
 }
 
 prompt_confirmation "Do you want to install Qtile" installAndConfigureQtile
+
+prompt_confirmation "Do you want to update Qtile Configuration" copyQtileConfig
 
 CALLFLOW_IPS="10.10.160.20 jaeger-bacb.omnilinx.com
 10.10.160.20 app-stage.omnilinx.dev

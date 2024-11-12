@@ -1,30 +1,41 @@
-set_time_zone() {
-    read -p "Do you want to set the time zone? (y/n, default: y): " time_zone_choice
-    time_zone_choice=${time_zone_choice:-y}  # Default to 'y' if no input is provided
-
-    if [[ "$time_zone_choice" =~ ^[Yy]$ ]]; then
-        echo "Setting the time zone..."
-
-        # Ask for the region and city (example: America/New_York)
-        read -p "Enter your time zone (e.g., America/New_York): " time_zone
-        ln -sf "/usr/share/zoneinfo/$time_zone" /etc/localtime
-
-        echo "Generating hardware clock settings..."
-        hwclock --systohc
-
-        # Setting up time synchronization (systemd-timesyncd)
-        echo "Enabling NTP for time synchronization..."
-        systemctl enable systemd-timesyncd
-        systemctl start systemd-timesyncd
-
-        echo "Time zone and synchronization set successfully."
-    else
-        echo "Skipping time zone setup."
-    fi
+prompt_confirmation() {
+    local question="$1"
+    local callback="$2"
+    read -p "$question (y/n): " choice
+    case "$choice" in
+        [Yy]*) 
+            # Call the passed function
+            "$callback"
+            ;;
+        [Nn]*) 
+            echo "Skipping Operation..."
+            ;;
+        *) 
+            echo "Invalid choice, please answer y or n."
+            ;;
+    esac
 }
 
-set_time_zone
-wait 1
+set_time_zone() {
+    echo "Setting the time zone to Europe/Sofia..."
+
+    # Set the time zone to Europe/Sofia
+    ln -sf "/usr/share/zoneinfo/Europe/Sofia" /etc/localtime
+
+    echo "Generating hardware clock settings..."
+    hwclock --systohc
+
+    # Setting up time synchronization (systemd-timesyncd)
+    echo "Enabling NTP for time synchronization..."
+    systemctl enable systemd-timesyncd
+    systemctl start systemd-timesyncd
+
+    echo "Time zone and synchronization set successfully."
+}
+
+prompt_confirmation "Do you want to set time zone" set_time_zone
+
+  wait 1
 
 configure_localization() {
       read -p "Do you want to configure localization? (y/n, default: y): " localization_choice
@@ -65,34 +76,35 @@ configure_localization
 wait 1
 
 createUser() {
-    # Ask if the user wants to create a new user
-    read -p "Do you want to create a new user? (y/n): " choice
-    case "$choice" in
-        [Yy]*)
-            # Prompt for the username
-            read -p "Enter the username: " username
-            
-            # Prompt for the password
-            read -s -p "Enter the password for $username: " password
-            echo # To move to the next line after password input
-            
-            # Create the user with the specified username
-            sudo useradd -m -s /bin/bash "$username"
-            
-            # Set the password for the new user
-            echo "$username:$password" | sudo chpasswd
-            
-            echo "User $username created successfully."
-            ;;
-        [Nn]*)
-            echo "User creation aborted."
-            ;;
-        *)
-            echo "Invalid choice. User creation aborted."
-            ;;
-    esac
+    # Prompt for username
+    read -p "Enter the username to create: " username
+
+    # Create the user and add to 'wheel' group
+    useradd -m -G wheel -s /bin/bash "$username"
+    echo "User '$username' created and added to the 'wheel' group."
+
+    # Prompt for password
+    echo "Enter password for user '$username':"
+    passwd "$username"
+
+    echo "User creation and password setup complete."
 }
-createUser
+
+prompt_confirmation "Do you want to add a user" createUser
+
+configureSudoers() {
+    echo "Configuring sudoers to grant 'wheel' group sudo privileges..."
+
+    # Backup the original sudoers file
+    cp /etc/sudoers /etc/sudoers.bak
+
+    # Use sed to uncomment the '%wheel ALL=(ALL) ALL' line
+    sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+
+    echo "'wheel' group now has sudo privileges."
+}
+
+prompt_confirmation "Do you want to configure Sudoers?" configureSudoers
 
 configure_network() {
       read -p "Do you want to configure the network? (y/n, default: y): " network_choice
