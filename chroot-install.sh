@@ -76,10 +76,9 @@ configure_localization
 wait 1
 
 createUser() {
-    # Prompt for username
-    read -p "Enter the username to create: " username
+    local username="mario"
 
-    # Create the user and add to 'wheel' group
+    # Create the user 'mario' and add to 'wheel' group
     useradd -m -G wheel -s /bin/bash "$username"
     echo "User '$username' created and added to the 'wheel' group."
 
@@ -90,7 +89,20 @@ createUser() {
     echo "User creation and password setup complete."
 }
 
+
 prompt_confirmation "Do you want to add a user" createUser
+
+cloneRepo() {
+    local username="mario"
+    local repo_url="https://github.com/Mario-Kostadinov/mArch"
+    local destination_dir="/home/$username/mArch"
+
+    # Clone the repository into mario's home directory
+    su - "$username" -c "git clone $repo_url $destination_dir"
+    echo "Repository cloned to $destination_dir."
+}
+
+prompt_confirmation "Do you want to clone mArch Repository?" cloneRepo
 
 configureSudoers() {
     echo "Configuring sudoers to grant 'wheel' group sudo privileges..."
