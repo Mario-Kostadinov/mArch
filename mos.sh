@@ -76,6 +76,25 @@ prompt_confirmation "Do you want to install Qtile" installAndConfigureQtile
 
 prompt_confirmation "Do you want to update Qtile Configuration" copyQtileConfig
 
+copyEmacsConfig() {
+    echo "Copying Emacs configuration..."
+
+    # Define source and target paths
+    src="$HOME/mArch/configs/EmacsConfig.el"
+    dest="$HOME/.emacs.d/init.el"
+
+    # Create target directory if it doesn't exist
+    mkdir -p "$(dirname "$dest")"
+
+    # Copy the configuration file
+    if cp "$src" "$dest"; then
+        echo "Emacs configuration copied to $dest successfully."
+    else
+        echo "Error: Failed to copy Emacs configuration from $src to $dest."
+    fi
+}
+prompt_confirmation "Do you want to copy Emacs config?" copyEmacsConfig
+
 CALLFLOW_IPS="10.10.160.20 jaeger-bacb.omnilinx.com
 10.10.160.20 app-stage.omnilinx.dev
 10.10.160.20 sso-stage.omnilinx.dev
