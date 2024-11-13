@@ -329,7 +329,7 @@ screens = [
                ),
                widget.GenPollText(
                     update_interval=1,
-                    func=lambda: subprocess.check_output("/home/mario/mos/mconfig/timetracking/current-task.sh").decode("utf-8").strip()
+                    func=lambda: subprocess.check_output("/home/mario/mArch/configs/qtileTimetracking").decode("utf-8").strip()
                     ),
             widget.Sep(
                     linewidth = 1,
@@ -361,7 +361,7 @@ mouse = [
 
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser('~/mos/mconfig/autostart.sh')
+    home = os.path.expanduser('~/mArch/configs/qtileAutoStart.sh')
     # startkeybinds = os.path.expanduser('~/mconfig/startkeybinds.sh')
     subprocess.run([home])
 
