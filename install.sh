@@ -25,6 +25,7 @@ BaseInstallApplications=(
     "networkmanager: Simplified network management"
     "grub: Bootloader"
     "efibootmgr: EFI boot manager for UEFI systems"
+    "os-prober: Check for other boot entrie"
     "amd-ucode: AMD CPU microcode updates"
     "sudo: Allow non-root users to run commands as root"
     "git: Version control system"

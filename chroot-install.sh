@@ -219,7 +219,6 @@ install_boot_loader() {
         uefi_choice=${uefi_choice:-y}  # Default to 'y' if no input is provided
 
         if [[ "$uefi_choice" =~ ^[Yy]$ ]]; then
-            pacman -S grub efibootmgr os-prober
 
             grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 

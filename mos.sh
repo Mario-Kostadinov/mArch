@@ -75,6 +75,26 @@ installSDDMFresh() {
 prompt_confirmation "Do you want to install SDDM" installSDDMFresh
 prompt_confirmation "Do you want to enable SDDM" configureSDDM
 
+swap_ctrl_caps_permanent() {
+    echo "Copying ctrl:swapcaps configuration..."
+
+    # Define source and target paths
+    src="/home/mario/mArch/configs/00-keyboard.conf"
+    dest="/etc/X11/xorg.conf.d/00-keyboard.conf"
+
+    # Create target directory if it doesn't exist
+    mkdir -p "$(dirname "$dest")"
+
+    # Copy the configuration file
+    if cp "$src" "$dest"; then
+        echo "ctrl:swapcaps configuration copied to $dest successfully."
+    else
+        echo "Error: Failed to copy ctrl:swapcaps configration from $src to $dest."
+    fi
+  }
+
+prompt_confirmation "Do you wanto swap caps and control?" swap_ctrl_caps_permanent
+
 installQtile() {
  pacman -S --noconfirm qtile
 }
@@ -118,6 +138,26 @@ copyEmacsConfig() {
     fi
 }
 prompt_confirmation "Do you want to copy Emacs config?" copyEmacsConfig
+
+copyAlacrittyConfig() {
+    echo "Copying Alacritty configuration..."
+
+    # Define source and target paths
+    src="/home/mario/mArch/configs/alacritty.yml"
+    dest="/home/mario/.config/alacritty/alacritty.yml"
+
+    # Create target directory if it doesn't exist
+    mkdir -p "$(dirname "$dest")"
+
+    # Copy the configuration file
+    if cp "$src" "$dest"; then
+        echo "Alacritty configuration copied to $dest successfully."
+    else
+        echo "Error: Failed to copy Alacritty configration from $src to $dest."
+    fi
+}
+
+prompt_confirmation "Do you want to copy Alacritty configration?" copyAlacrittyConfig
 
 CALLFLOW_IPS="10.10.160.20 jaeger-bacb.omnilinx.com
 10.10.160.20 app-stage.omnilinx.dev

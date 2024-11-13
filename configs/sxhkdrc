@@ -5,7 +5,7 @@ super + shift + Return
     emacsclient -c -a ""
 
 super + w
-    google-chrome-stable
+    firefox
 #
  super + shift + f
 # 	rofi -show drun -fullscreen
