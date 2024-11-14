@@ -1,11 +1,14 @@
 prompt_confirmation() {
     local question="$1"
     local callback="$2"
+    shift 2 # Shift the first two arguments to access remaining arguments
+    local args=("$@") # Store remaining arguments in an array
+
     read -p "$question (y/n): " choice
     case "$choice" in
         [Yy]*) 
-            # Call the passed function
-            "$callback"
+            # Call the passed function with the remaining arguments
+            "$callback" "${args[@]}"
             ;;
         [Nn]*) 
             echo "Skipping Operation..."
@@ -16,26 +19,38 @@ prompt_confirmation() {
     esac
 }
 
-run_mos_script() {
-    local chroot_script="mos.sh"
+installApps() {
+    # Retrieve the list of applications passed as an argument
+    local apps=("$@")
 
-    # Check if the script exists
-    if [[ -f "$chroot_script" ]]; then
-        echo "Copying $chroot_script to /mnt/root/..."
-        cp "$chroot_script" /mnt/root/
-        chmod +x /mnt/root/$chroot_script
-        echo "Entering chroot and executing $chroot_script..."
-        arch-chroot /mnt /root/$chroot_script
-    else
-        echo "Error: $chroot_script not found. Please ensure the script is in the same directory."
-        exit 1
-    fi
+    # Install each app using pacman
+    for app in "${apps[@]}"; do
+        # Extract the app name (before the colon)
+        app_name=$(echo "$app" | cut -d ':' -f 1)
+        echo "Installing $app_name..."
+        sudo pacman -S --noconfirm "$app_name"
+    done
+
+    echo "All apps have been installed."
 }
 
+  run_mos_script() {
+      local chroot_script="mos.sh"
+
+      # Check if the script exists
+      if [[ -f "$chroot_script" ]]; then
+          echo "Copying $chroot_script to /mnt/root/..."
+          cp "$chroot_script" /mnt/root/
+          chmod +x /mnt/root/$chroot_script
+          echo "Entering chroot and executing $chroot_script..."
+          arch-chroot /mnt /root/$chroot_script
+      else
+          echo "Error: $chroot_script not found. Please ensure the script is in the same directory."
+          exit 1
+      fi
+  }
+
 APPS=(
-    #IDES
-    "emacs: no need to introduce this"
-    "vim: cool"
     #timetracking
     "timew: cli base time tracking app"
     "rofi: menu"
@@ -47,18 +62,16 @@ APPS=(
     "rg: recursively search the current dir for lines matching a pattern"
 )
 
-installApps() {
-  # Install each app using pacman
-  for app in "${APPS[@]}"; do
-      # Extract the app name (before the colon)
-      app_name=$(echo "$app" | cut -d ':' -f 1)
-      echo "Installing $app_name..."
-      sudo pacman -S --noconfirm "$app_name"
-  done
+APPS_DEV_EDITORS=(
+    "emacs: GNU project Emacs editor"
+    "vim: Vi IMproved, a programmer's text editor"
+    "code: Microsoft's code editor - vscode"
+    "nano: simple text editor"
+)
 
-  echo "All apps have been installed."
-}
-prompt_confirmation "Do you want to install base applications" installApps
+prompt_confirmation "Do you want to install base applications" installApps "${APPS[@]}"
+
+prompt_confirmation "Do you want to install Dev Editors?" installApps "${APPS_DEV_EDITORS[@]}"
 
 YAY_APPS=(
     "google-chrome: stupid browser"
@@ -195,8 +208,8 @@ copyAlacrittyConfig() {
     echo "Copying Alacritty configuration..."
 
     # Define source and target paths
-    src="/home/mario/mArch/configs/alacritty.yml"
-    dest="/home/mario/.config/alacritty/alacritty.yml"
+    src="/home/mario/mArch/configs/alacritty.toml"
+    dest="/home/mario/.config/alacritty/alacritty.toml"
 
     # Create target directory if it doesn't exist
     mkdir -p "$(dirname "$dest")"
