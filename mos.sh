@@ -224,6 +224,43 @@ copyAlacrittyConfig() {
 
 prompt_confirmation "Do you want to copy Alacritty configration?" copyAlacrittyConfig
 
+GRUB_CMDLINE_LINUX_DEFAULT="amd_iommu=on iommu=pt vfio-pci.ids=10de:220a,10de:1aef,10de:1c82,10de:0fb9"
+
+lspci -nn -k
+
+d:00.0 VGA compatible controller [0300]: NVIDIA Corporation GA102 [GeForce RTX 3080 12GB] [10de:220a] (rev a1)
+Subsystem: Palit Microsystems Inc. Device [1569:220a]
+Kernel driver in use: nvidia
+Kernel modules: nouveau, nvidia_drm, nvidia
+
+0d:00.1 Audio device [0403]: NVIDIA Corporation GA102 High Definition Audio Controller [10de:1aef] (rev a1)
+Subsystem: Palit Microsystems Inc. Device [1569:220a]
+Kernel driver in use: snd_hda_intel
+Kernel modules: snd_hda_intel
+
+09:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP107 [GeForce GTX 1050 Ti] [10de:1c82] (rev a1)
+Subsystem: ASUSTeK Computer Inc. PH-GTX1050TI-4G [1043:8613]
+Kernel driver in use: nvidia
+Kernel modules: nouveau, nvidia_drm, nvidia
+09:00.1 Audio device [0403]: NVIDIA Corporation GP107GL High Definition Audio Controller [10de:0fb9] (rev a1)
+Subsystem: ASUSTeK Computer Inc. Device [1043:8613]
+Kernel driver in use: snd_hda_intel
+Kernel modules: snd_hda_intel
+
+grub-mkconfig -o /boot/grub/grub.cfg
+
+APPS_VM=(
+    "qemu-desktop: desc"
+    "libvirt: desc"
+    "edk2-ovmf: desc"
+    "virt-manager: desc"
+    "dnsmasq: desc"
+)
+
+Echo "Hello"
+
+prompt_confirmation "Do you want to install Virtualisation Software?" installApps "${APPS_VM[@]}"
+
 CALLFLOW_IPS="10.10.160.20 jaeger-bacb.omnilinx.com
 10.10.160.20 app-stage.omnilinx.dev
 10.10.160.20 sso-stage.omnilinx.dev
