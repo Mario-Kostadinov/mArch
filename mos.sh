@@ -202,6 +202,7 @@ copyEmacsConfig() {
         echo "Error: Failed to copy Emacs configuration from $src to $dest."
     fi
 }
+
 prompt_confirmation "Do you want to copy Emacs config?" copyEmacsConfig
 
 copyAlacrittyConfig() {
