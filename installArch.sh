@@ -15,15 +15,12 @@ disk() {
     mount_partitions
     echo "Generating fstab"
     wait 3
-    generate_fstab
 }
 
 diskManual() {
     prompt_confirmation "Do you want to partition and format $DISK?" partition_and_format
 
     prompt_confirmation "Do you want to mount partitions?" mount_partitions
-
-    prompt_confirmation "Do you want to generate fstab?" generate_fstab
 }
 
 manual_install_base_apps() {
@@ -41,6 +38,9 @@ baseInstallAutomatic() {
       wait 3
       determine_microcode $CPU
       install_packages_with_pacstrap $BASE_APPS $CPU_MICROCODE
+      generate_fs_tab   
+
+
   }
 
 baseInstallManual() {
@@ -48,7 +48,7 @@ baseInstallManual() {
     determine_microcode $CPU
 
     prompt_confirmation "Do you want to install base packages?" manual_install_base_apps
-
+    prompt_confirmation "Do you want to generate fstab?" generate_fstab
 }
 
 networkAutomatic(){
