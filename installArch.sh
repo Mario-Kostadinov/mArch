@@ -2,6 +2,55 @@
 source ./.env.sample
 for FILE in ./scripts/* ; do source $FILE ; done
 
+disk() {
+    echo "Starting Partitining of $DISK"
+    wait 3
+    partition_and_format
+    echo "Partitioning complete."
+    echo "Boot partition: $BOOT_PART"
+    echo "Swap partition: $SWAP_PART"
+    echo "Root partition: $ROOT_PART"
+    echo "Starting mouting partitions..."
+    wait 3
+    mount_partitions
+    echo "Generating fstab"
+    wait 3
+    generate_fstab
+}
+
+diskManual() {
+    promp_confirmation "Do you want to partition and format $DISK?" partition_and_format
+
+    prompt_confirmation "Do you want to mount partitions?" mount_partitions
+
+    prompt_confirmation "Do you want to generate fstab?" generate_fstab
+}
+
+manual_install_base_apps() {
+    determine_microcode $CPU
+    install_packages_with_pacstrap $BASE_APPS $CPU_MICROCODE
+}
+
+baseInstallAutomatic() {
+      echo "Starting base Arch install..."
+      wait 3
+      disk
+      echo "Finished formatting disk"
+      wait 3
+      echo "Installing base packages"
+      wait 3
+      determine_microcode $CPU
+      install_packages_with_pacstrap $BASE_APPS $CPU_MICROCODE
+  }
+
+baseInstallManual() {
+    prompt_confirmation "Do you want to format and partition disk?" diskManual
+    determine_microcode $CPU
+
+    prompt_confirmation "Do you want to install base packages?" manual_install_b ase_apps
+
+}
+
 networkAutomatic(){
     configure_hostname
     install_network_manager
