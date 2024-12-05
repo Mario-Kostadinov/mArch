@@ -34,7 +34,9 @@ partition_and_format() {
     ROOT_PART="${DISK}p3"
 
     # Prompt to format partitions (default: yes)
-
+    echo $BOOT_PART
+    echo $SWAP_PART
+    echo $ROOT_PART
     mkfs.fat -F 32 "$BOOT_PART"
     mkswap "$SWAP_PART"
     mkfs.ext4 "$ROOT_PART"
