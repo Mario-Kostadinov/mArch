@@ -47,7 +47,7 @@ baseInstallManual() {
     prompt_confirmation "Do you want to format and partition disk?" diskManual
     determine_microcode $CPU
 
-    prompt_confirmation "Do you want to install base packages?" manual_install_b ase_apps
+    prompt_confirmation "Do you want to install base packages?" manual_install_base_apps
 
 }
 
