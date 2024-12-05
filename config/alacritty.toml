@@ -1,0 +1,7 @@
+[font]
+size = 24.0
+
+[terminal]
+
+[terminal.shell]
+program = "/bin/zsh"
