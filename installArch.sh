@@ -19,7 +19,7 @@ disk() {
 }
 
 diskManual() {
-    promp_confirmation "Do you want to partition and format $DISK?" partition_and_format
+    prompt_confirmation "Do you want to partition and format $DISK?" partition_and_format
 
     prompt_confirmation "Do you want to mount partitions?" mount_partitions
 
@@ -58,9 +58,9 @@ networkAutomatic(){
 }
 
 network_manual() {
-    promp_confirmation "Do you want to configure hostname?" configure_hostname
+    prompt_confirmation "Do you want to configure hostname?" configure_hostname
     prompt_confirmation "Do you want to install network manager?" install_network_manager
-    promp_confirmation "Do you want to enable network manager?" enable_network_manager
+    prompt_confirmation "Do you want to enable network manager?" enable_network_manager
 }
 
 chrootInstallManual() {
