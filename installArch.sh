@@ -80,8 +80,18 @@ setup_display_manager() {
    prompt_confirmation "Do you want to enable Display Manager?" enable_sddm
 }
 
+setup_qtile() {
+  prompt_confirmation "Do you want to install qtile?" install_qtile
+  prompt_confirmation "Do you want to copy qtile config?" copy_qtile_config
+}
+
+setup_window_manager() {
+  prompt_confirmation "Do you want to setup qtile?" setup_qtile 
+}
+
 desktop_install_manual() {
    prompt_confirmation "Display Manager setup?" setup_display_manager 
+   prompt_confirmation "Window Manager setup?" setup_window_manager
 }
 
 desktopInstall(){
