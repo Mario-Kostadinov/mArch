@@ -75,6 +75,20 @@ chrootInstallManual() {
     prompt_confirmation "Do you want to install grub bootloader?" install_grub_boot_loader
 }
 
+setup_display_manager() {
+   prompt_confirmation "Do you want to install Display Manager?" install_sddm
+   prompt_confirmation "Do you want to enable Display Manager?" enable_sddm
+}
+
+desktop_install_manual() {
+   prompt_confirmation "Display Manager setup?" setup_display_manager 
+}
+
+desktopInstall(){
+    install_apps $APPLICATIONS_BROWSERS
+    install_apps $APPLICATIONS_DEV
+}
+
 # Main menu function
 main() {
     echo "Select an installation step:"
@@ -104,7 +118,7 @@ main() {
             desktopInstallAutomatic
             ;;
         6)
-            desktopInstallManual
+            desktop_install_manual
             ;;
 
         0)
