@@ -38,9 +38,8 @@ baseInstallAutomatic() {
       wait 3
       determine_microcode $CPU
       install_packages_with_pacstrap $BASE_APPS $CPU_MICROCODE
-      generate_fs_tab   
-
-
+      generate_fs_tab
+      copy_repo_to_root
   }
 
 baseInstallManual() {
@@ -49,6 +48,7 @@ baseInstallManual() {
 
     prompt_confirmation "Do you want to install base packages?" manual_install_base_apps
     prompt_confirmation "Do you want to generate fstab?" generate_fstab
+    prompt_confirmation "Do you want to copy repo to roo?" copy_repo_to_root
 }
 
 networkAutomatic(){
@@ -67,6 +67,7 @@ chrootInstallManual() {
     prompt_confirmation "Do you want to configure network?" network_manual
     prompt_confirmation "Do you want to confugure localisation?" configure_localisation
     prompt_confirmation "Do you want to add a normal user?" add_normal_user
+    promt_confirmation "Do you want to set time zone?" set_time_zone
     prompt_confirmation "Do you want to add root user password?" update_sudo_user 
     prompt_confirmation "Do you want to add normal user to wheel group?" add_wheel_group_to_sudoers
     prompt_confirmation "Do you want to generate initramfs?" generate_initramfs
