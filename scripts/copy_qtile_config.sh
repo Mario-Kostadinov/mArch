@@ -1,7 +1,7 @@
 #!/bin/bash
   copy_qtile_config() {
         echo "Copying Qtile configuration file..."
-        local source="/root/mArch/dist/config/qtile.py"
+        local source="/home/mario/mArch/config/qtile.py"
         local target="/home/mario/.config/qtile/config.py"
         mkdir -p "$(dirname "$target")"
 

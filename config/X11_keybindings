@@ -1,0 +1,24 @@
+super + Return
+    alacritty
+
+super + shift + Return
+    emacsclient -c -a ""
+
+super + w
+    google-chrome-stable
+
+# super + shift + f
+# 	rofi -show drun -fullscreen
+
+super + shift + w
+	rofi -show run
+
+
+alt + shift + c
+   $HOME/mos/mconfig/dmenu-script.sh
+
+alt + shift + w
+   $HOME/mos/mconfig/launch-work.sh
+
+alt + shift + x
+    loginctl terminate-user mario

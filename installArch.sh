@@ -83,15 +83,22 @@ setup_display_manager() {
 setup_qtile() {
   prompt_confirmation "Do you want to install qtile?" install_qtile
   prompt_confirmation "Do you want to copy qtile config?" copy_qtile_config
+  prompt_confirmation "Do you want to copy qtile autostart script?" copy_qtile_autostart
 }
 
 setup_window_manager() {
   prompt_confirmation "Do you want to setup qtile?" setup_qtile 
 }
 
+setup_keybindings(){
+   prompt_confirmation "Do you want to install X11 Keybindings?" X11_keybindings_install
+   prompt_confirmation "Do you want to swap ctrl caps?" swap_ctrl_caps_permanent
+}
+
 desktop_install_manual() {
    prompt_confirmation "Display Manager setup?" setup_display_manager 
    prompt_confirmation "Window Manager setup?" setup_window_manager
+   prompt_confirmation "Keybindings Setup?" setup_keybindings
 }
 
 desktopInstall(){
