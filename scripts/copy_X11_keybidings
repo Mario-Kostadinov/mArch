@@ -1,5 +1,5 @@
 copy_X11_keybindings() {
-    echo "Copying ctrl:swapcaps configuration..."
+    echo "Copying X11 keybindings..."
 
     # Define source and target paths
     src="/home/mario/mArch/config/X11_keybindings"
@@ -10,9 +10,9 @@ copy_X11_keybindings() {
 
     # Copy the configuration file
     if cp "$src" "$dest"; then
-        echo "ctrl:swapcaps configuration copied to $dest successfully."
+        echo "Copied X11 Keybindings to $dest successfully."
     else
-        echo "Error: Failed to copy ctrl:swapcaps configration from $src to $dest."
+        echo "Error: Failed to copy X11 keybindings from $src to $dest."
     fi
 
 }

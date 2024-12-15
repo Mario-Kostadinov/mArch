@@ -96,6 +96,11 @@ setup_keybindings(){
    prompt_confirmation "Do you want to copy X11 Keybindings?" copy_X11_keybindings
 }
 
+setup_terminal_emulator() {
+ prompt_confirmation "Do you want to install alacritty?" install_alacritty
+ prompt_confirmation "Do you want to copy alacritty config?" copy_alacritty_config
+}
+
 desktop_install_manual() {
    prompt_confirmation "Display Manager setup?" setup_display_manager 
    prompt_confirmation "Window Manager setup?" setup_window_manager
