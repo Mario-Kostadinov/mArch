@@ -3,7 +3,7 @@ copyEmacsConfig() {
     echo "Copying Emacs configuration..."
 
     # Define source and target paths
-    src="/home/mario/mos/dist/config/emacs.el"
+    src="/home/mario/mArch/config/emacs.el"
     dest="/home/mario/.emacs.d/init.el"
 
     # Create target directory if it doesn't exist

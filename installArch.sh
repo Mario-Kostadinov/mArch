@@ -105,7 +105,6 @@ desktop_install_manual() {
    prompt_confirmation "Display Manager setup?" setup_display_manager 
    prompt_confirmation "Window Manager setup?" setup_window_manager
    prompt_confirmation "Keybindings Setup?" setup_keybindings
-   prompt_confirmation "Terminal Emulator Setup?" setup_terminal_emulator
 }
 
 desktopInstall(){
