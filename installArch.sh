@@ -101,10 +101,21 @@ setup_terminal_emulator() {
  prompt_confirmation "Do you want to copy alacritty config?" copy_alacritty_config
 }
 
+install_ides() {
+  install_apps_individually $APPLICATIONS_DEV_IDES
+}
+
+setup_ides() {
+  prompt_confirmation "Do you want to install ides?" install_ides
+  prompt_confirmation "Do you want to copy emacs setup?" copy_emacs_config
+}
+
 desktop_install_manual() {
    prompt_confirmation "Display Manager setup?" setup_display_manager 
    prompt_confirmation "Window Manager setup?" setup_window_manager
    prompt_confirmation "Keybindings Setup?" setup_keybindings
+   prompt_confirmation "Terminal Emulator setup?" setup_terminal_emulator
+   prompt_confirmation "IDEs setup?" setup_ides
 }
 
 desktopInstall(){
