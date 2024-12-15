@@ -93,6 +93,7 @@ setup_window_manager() {
 setup_keybindings(){
    prompt_confirmation "Do you want to install X11 Keybindings?" X11_keybindings_install
    prompt_confirmation "Do you want to swap ctrl caps?" swap_ctrl_caps_permanent
+   prompt_confirmation "Do you want to copy X11 Keybindings?" copy_X11_keybindings
 }
 
 desktop_install_manual() {
