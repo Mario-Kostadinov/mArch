@@ -7,6 +7,6 @@
 
           # Copy the configuration file from 'configs/qtile.py' to the target directory
           cp "$source" "$target"
-
+          chmod +x $target
           echo "Qtile configuration file copied to ~/.config/qtile/config.py."
       }

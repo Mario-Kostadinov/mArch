@@ -67,7 +67,8 @@ chrootInstallManual() {
     prompt_confirmation "Do you want to configure network?" network_manual
     prompt_confirmation "Do you want to confugure localisation?" configure_localisation
     prompt_confirmation "Do you want to add a normal user?" add_normal_user
-    promt_confirmation "Do you want to set time zone?" set_time_zone
+    prompt_confirmation "Do you want to add normal user permissions?" add_normal_user_ownership
+    prompt_confirmation "Do you want to set time zone?" set_time_zone
     prompt_confirmation "Do you want to add root user password?" update_sudo_user 
     prompt_confirmation "Do you want to add normal user to wheel group?" add_wheel_group_to_sudoers
     prompt_confirmation "Do you want to generate initramfs?" generate_initramfs
@@ -101,6 +102,10 @@ setup_terminal_emulator() {
  prompt_confirmation "Do you want to copy alacritty config?" copy_alacritty_config
 }
 
+setup_yay(){
+  prompt_confirmation "Do you want to install yay?" install_yay  
+}
+
 install_ides() {
   install_apps_individually $APPLICATIONS_DEV_IDES
 }
@@ -110,7 +115,19 @@ setup_ides() {
   prompt_confirmation "Do you want to copy emacs setup?" copy_emacs_config
 }
 
+install_apps() {
+  install_apps_individually $APPLICATIONS_DEV
+  install_yay_apps $APPLICATIONS_DEV_YAY
+  install_apps_individually $APPLICATIONS_UTILITY
+  install_yay_apps $APPLICATIONS_UTILITY_YAY
+  install_apps_individually $APPLICATIONS_BROWSERS
+  install_yay_apps $APPLICATIONS_BROWSERS_YAY
+}
+
 desktop_install_manual() {
+   prompt_confirmation "yay setup?" setup_yay
+   prompt_confirmation "Install Applications" install_apps
+   prompt_confirmation "Generate SSH key?" generate_ssh_key
    prompt_confirmation "Display Manager setup?" setup_display_manager 
    prompt_confirmation "Window Manager setup?" setup_window_manager
    prompt_confirmation "Keybindings Setup?" setup_keybindings
